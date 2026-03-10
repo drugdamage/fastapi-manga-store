@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Catalog - Manga Store{% endblock %}
+
+{% block content %}
+<h1>Manga Catalog</h1>
+
+<div class="grid">
+    {% for product in products %}
+    <article class="card">
+        <img src="{{ product.image_url }}" alt="{{ product.title }}">
+
+        <div class="card-body">
+            <h3>{{ product.title }} Vol. {{ product.volume }}</h3>
+
+            <p>{{ product.description }}</p>
+
+            <div class="meta">
+                <span>{{ product.genre }}</span>
+
+                <span>
+                {% if product.in_stock %}
+                    In stock
+                {% else %}
+                    Out of stock
+                {% endif %}
+                </span>
+            </div>
+
+            <div class="card-footer">
+                <span>${{ "%.2f"|format(product.price) }}</span>
+                <a href="/products/{{ product.id }}">View</a>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+
+{% endblock %}

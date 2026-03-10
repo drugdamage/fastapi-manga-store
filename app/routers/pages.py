@@ -33,6 +33,16 @@ def catalog(request: Request):
     )
 
 
+@router.get("/products/new", response_class=HTMLResponse)
+def create_product_page(request: Request):
+    return templates.TemplateResponse(
+        "create_product.html",
+        {
+            "request": request,
+        },
+    )
+
+
 @router.get("/products/{product_id}", response_class=HTMLResponse)
 def product_detail(request: Request, product_id: int):
     product = catalog_service.get_product(product_id)
@@ -55,14 +65,7 @@ def product_detail(request: Request, product_id: int):
     )
 
 
-@router.get("/products/new", response_class=HTMLResponse)
-def create_product_page(request: Request):
-    return templates.TemplateResponse(
-        "create_product.html",
-        {
-            "request": request,
-        },
-    )
+
 
 
 @router.post("/products/new")

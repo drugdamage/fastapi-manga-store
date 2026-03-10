@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Product - Manga Store{% endblock %}
+
+{% block content %}
+{% if product %}
+<div class="product-layout">
+    <div>
+        <img class="product-image" src="{{ product.image_url }}" alt="{{ product.title }}">
+    </div>
+
+    <div>
+        <h1>{{ product.title }} Vol. {{ product.volume }}</h1>
+        <p class="genre">{{ product.genre }}</p>
+        <p class="price">${{ "%.2f"|format(product.price) }}</p>
+        <p>{{ product.description }}</p>
+
+        <p>
+            <strong>Status:</strong>
+            {% if product.in_stock %}
+                In stock
+            {% else %}
+                Out of stock
+            {% endif %}
+        </p>
+
+        <a href="/catalog" class="button">Back to catalog</a>
+    </div>
+</div>
+{% else %}
+<h1>Manga not found</h1>
+<p>This item does not exist.</p>
+<a href="/catalog" class="button">Back to catalog</a>
+{% endif %}
+{% endblock %}

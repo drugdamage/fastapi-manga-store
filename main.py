@@ -1,6 +1,11 @@
 from fastapi import FastAPI
-from app.routers import items
+from fastapi.staticfiles import StaticFiles
 
-app = FastAPI(title="fastapi-webapp")
+from app.routers import items, pages
 
-app.include_router(items.router)
+app = FastAPI(title="Manga Store MVP")
+
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+app.include_router(pages.router)
+app.include_router(items.router, prefix="/api")

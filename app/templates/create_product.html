@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Add Manga - Manga Store{% endblock %}
+
+{% block content %}
+<h1>Add Manga</h1>
+
+<form method="post" class="form">
+    <label>
+        Title
+        <input type="text" name="title" required>
+    </label>
+
+    <label>
+        Description
+        <textarea name="description" rows="5" required></textarea>
+    </label>
+
+    <label>
+        Price
+        <input type="number" name="price" step="0.01" required>
+    </label>
+
+    <label>
+        Image URL
+        <input
+            type="text"
+            name="image_url"
+            value="https://placehold.co/600x800?text=New+Manga"
+            required
+        >
+    </label>
+
+    <label>
+        Volume
+        <input type="number" name="volume" min="1" value="1" required>
+    </label>
+
+    <label>
+        Genre
+        <input type="text" name="genre" required>
+    </label>
+
+    <label class="checkbox">
+        <input type="checkbox" name="in_stock" checked>
+        In stock
+    </label>
+
+    <button type="submit" class="button">Create Manga</button>
+</form>
+{% endblock %}

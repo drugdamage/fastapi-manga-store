@@ -4,7 +4,9 @@
 
 {% block content %}
 <h1>Add Manga</h1>
+<p>Page for manager or admin.</p>
 
+<!-- форма создания товара -->
 <form method="post" class="form">
     <label>
         Title
@@ -23,6 +25,7 @@
 
     <label>
         Image URL
+        <!-- простая картинка по умолчанию -->
         <input
             type="text"
             name="image_url"
@@ -42,10 +45,12 @@
     </label>
 
     <label class="checkbox">
+        <!-- чекбокс наличия -->
         <input type="checkbox" name="in_stock" checked>
         In stock
     </label>
 
+    <!-- отправка формы -->
     <button type="submit" class="button">Create Manga</button>
 </form>
 {% endblock %}

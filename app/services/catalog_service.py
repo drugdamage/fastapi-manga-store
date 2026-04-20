@@ -1,86 +1,71 @@
-from app.models.product import ProductCreate, ProductOut
+# сервис для работы с товарами
+from sqlalchemy import select
 
-_products: list[ProductOut] = [
-    ProductOut(
-        id=1,
-        title="Jujutsu Kaisen",
-        description="Dark fantasy manga about curses, sorcerers, and intense battles.",
-        price=12.99,
-        image_url="/static/images/jujutsu-kaisen-vol1.jpg",
-        volume=1,
-        genre="Dark Fantasy",
-        in_stock=True,
-    ),
-    ProductOut(
-        id=2,
-        title="Vinland Saga",
-        description="Historical action manga about war, revenge, and the Viking age.",
-        price=14.50,
-        image_url="/static/images/vinland-saga-vol1.jpg",
-        volume=1,
-        genre="Historical",
-        in_stock=True,
-    ),
-    ProductOut(
-        id=3,
-        title="Chainsaw Man",
-        description="A brutal and chaotic story about devils, hunters, and survival.",
-        price=11.90,
-        image_url="/static/images/chainsaw-man-vol1.jpg",
-        volume=1,
-        genre="Action Horror",
-        in_stock=True,
-    ),
-    ProductOut(
-        id=4,
-        title="Tokyo Ghoul",
-        description="A dark supernatural manga about identity, fear, and ghouls.",
-        price=13.20,
-        image_url="https://placehold.co/600x800?text=Tokyo+Ghoul",
-        volume=1,
-        genre="Supernatural",
-        in_stock=False,
-    ),
-    ProductOut(
-        id=5,
-        title="Attack on Titan",
-        description="A famous action manga about humanity fighting giant titans.",
-        price=15.00,
-        image_url="https://placehold.co/600x800?text=Attack+on+Titan",
-        volume=1,
-        genre="Action",
-        in_stock=True,
-    ),
-]
-
-_next_id = 6
+# подключаем базу и схемы
+from app.db import get_session
+from app.models.database import ProductDB
+from app.models.product import ProductCreate, ProductOut, ProductUpdate
 
 
 def list_products() -> list[ProductOut]:
-    return _products
+    # Берем все товары из базы.
+    with get_session() as session:
+        # делаем запрос с сортировкой по id
+        products = session.scalars(select(ProductDB).order_by(ProductDB.id)).all()
+        # переводим orm объекты в pydantic
+        return [ProductOut.model_validate(product) for product in products]
 
 
 def get_product(product_id: int) -> ProductOut | None:
-    for product in _products:
-        if product.id == product_id:
-            return product
-    return None
+    # Ищем один товар по id.
+    with get_session() as session:
+        # берем товар по ключу
+        product = session.get(ProductDB, product_id)
+        if product is None:
+            return None
+        return ProductOut.model_validate(product)
 
 
 def create_product(payload: ProductCreate) -> ProductOut:
-    global _next_id
+    # Создаем новый товар в базе.
+    with get_session() as session:
+        # собираем объект товара
+        product = ProductDB(
+            title=payload.title,
+            description=payload.description,
+            price=payload.price,
+            image_url=payload.image_url,
+            volume=payload.volume,
+            genre=payload.genre,
+            in_stock=payload.in_stock,
+        )
+        # добавляем товар в сессию
+        session.add(product)
+        # сохраняем в базу
+        session.commit()
+        # обновляем объект после сохранения
+        session.refresh(product)
+        return ProductOut.model_validate(product)
 
-    product = ProductOut(
-        id=_next_id,
-        title=payload.title,
-        description=payload.description,
-        price=payload.price,
-        image_url=payload.image_url,
-        volume=payload.volume,
-        genre=payload.genre,
-        in_stock=payload.in_stock,
-    )
 
-    _products.append(product)
-    _next_id += 1
-    return product
+def update_product(product_id: int, payload: ProductUpdate) -> ProductOut | None:
+    # Обновляем товар в базе.
+    with get_session() as session:
+        # ищем товар для редактирования
+        product = session.get(ProductDB, product_id)
+        if product is None:
+            return None
+
+        # меняем поля товара
+        product.title = payload.title
+        product.description = payload.description
+        product.price = payload.price
+        product.image_url = payload.image_url
+        product.volume = payload.volume
+        product.genre = payload.genre
+        product.in_stock = payload.in_stock
+
+        # сохраняем новые данные
+        session.commit()
+        session.refresh(product)
+        return ProductOut.model_validate(product)

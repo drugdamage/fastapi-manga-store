@@ -3,10 +3,12 @@
 {% block title %}Home - Manga Store{% endblock %}
 
 {% block content %}
+<!-- главный блок страницы -->
 <section class="hero">
     <h1>Manga Store MVP</h1>
     <p>Browse popular manga volumes, open product pages, and add new manga items.</p>
     <div class="hero-actions">
+        <!-- быстрые ссылки -->
         <a href="/catalog" class="button">Open Catalog</a>
         <a href="/products/new" class="button button-secondary">Add Manga</a>
     </div>
@@ -14,6 +16,7 @@
 
 <h2>Featured Manga</h2>
 <div class="grid">
+    <!-- выводим несколько манг -->
     {% for product in products %}
     <article class="card">
         <img src="{{ product.image_url }}" alt="{{ product.title }}">
@@ -23,6 +26,7 @@
             <div class="meta">
                 <span>{{ product.genre }}</span>
                 <span>
+                    <!-- показываем наличие -->
                     {% if product.in_stock %}
                         In stock
                     {% else %}
@@ -32,6 +36,7 @@
             </div>
             <div class="card-footer">
                 <span>${{ "%.2f"|format(product.price) }}</span>
+                <!-- переход к товару -->
                 <a href="/products/{{ product.id }}">View</a>
             </div>
         </div>

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<h1>Account</h1>
+
+<!-- карточка пользователя -->
+<div class="panel">
+    <p><strong>Username:</strong> {{ account_user.username }}</p>
+    <p><strong>Role:</strong> {{ account_user.role }}</p>
+
+    <div class="actions-row">
+        <!-- обычные действия -->
+        <a href="/orders" class="button">My Orders</a>
+        {% if is_manager %}
+        <!-- действия менеджера -->
+        <a href="/orders/all" class="button button-secondary">All Orders</a>
+        {% endif %}
+        {% if is_admin %}
+        <!-- действия админа -->
+        <a href="/admin/users" class="button button-secondary">Users</a>
+        {% endif %}
+        <!-- кнопка выхода -->
+        <form method="post" action="/logout">
+            <button type="submit" class="button button-danger">Logout</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

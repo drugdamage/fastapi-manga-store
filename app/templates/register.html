@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<h1>Register</h1>
+
+{% if error %}
+<!-- текст ошибки -->
+<p class="message-error">{{ error }}</p>
+{% endif %}
+
+<!-- форма регистрации -->
+<form method="post" class="form auth-form">
+    <label>
+        Username
+        <input type="text" name="username" required>
+    </label>
+
+    <label>
+        Password
+        <input type="password" name="password" required>
+    </label>
+
+    <!-- создаем аккаунт -->
+    <button type="submit" class="button">Create account</button>
+</form>
+{% endblock %}

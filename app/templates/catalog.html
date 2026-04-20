@@ -6,6 +6,7 @@
 <h1>Manga Catalog</h1>
 
 <div class="grid">
+    <!-- выводим все товары -->
     {% for product in products %}
     <article class="card">
         <img src="{{ product.image_url }}" alt="{{ product.title }}">
@@ -19,6 +20,7 @@
                 <span>{{ product.genre }}</span>
 
                 <span>
+                <!-- статус товара -->
                 {% if product.in_stock %}
                     In stock
                 {% else %}
@@ -29,6 +31,7 @@
 
             <div class="card-footer">
                 <span>${{ "%.2f"|format(product.price) }}</span>
+                <!-- ссылка на страницу товара -->
                 <a href="/products/{{ product.id }}">View</a>
             </div>
         </div>

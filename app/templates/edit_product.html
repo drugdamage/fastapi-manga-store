@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Manga{% endblock %}
+
+{% block content %}
+<h1>Edit Manga</h1>
+<p>Page for manager or admin.</p>
+
+<!-- форма редактирования -->
+<form method="post" class="form">
+    <label>
+        Title
+        <input type="text" name="title" value="{{ product.title }}" required>
+    </label>
+
+    <label>
+        Description
+        <textarea name="description" rows="5" required>{{ product.description }}</textarea>
+    </label>
+
+    <label>
+        Price
+        <input type="number" name="price" step="0.01" value="{{ product.price }}" required>
+    </label>
+
+    <label>
+        Image URL
+        <input type="text" name="image_url" value="{{ product.image_url }}" required>
+    </label>
+
+    <label>
+        Volume
+        <input type="number" name="volume" min="1" value="{{ product.volume }}" required>
+    </label>
+
+    <label>
+        Genre
+        <input type="text" name="genre" value="{{ product.genre }}" required>
+    </label>
+
+    <label class="checkbox">
+        <!-- меняем наличие -->
+        <input type="checkbox" name="in_stock" {% if product.in_stock %}checked{% endif %}>
+        In stock
+    </label>
+
+    <!-- сохраняем товар -->
+    <button type="submit" class="button">Save</button>
+</form>
+{% endblock %}

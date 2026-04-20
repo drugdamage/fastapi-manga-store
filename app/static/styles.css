@@ -35,6 +35,7 @@ body {
 
 .site-header nav {
     display: flex;
+    flex-wrap: wrap;
     gap: 16px;
 }
 
@@ -75,6 +76,10 @@ body {
 
 .button-secondary {
     background: #374151;
+}
+
+.button-danger {
+    background: #b91c1c;
 }
 
 .grid {
@@ -182,4 +187,60 @@ body {
     display: flex !important;
     align-items: center;
     gap: 10px;
+}
+
+.panel {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+.auth-form {
+    max-width: 520px;
+}
+
+.message-error {
+    color: #b91c1c;
+    font-weight: bold;
+}
+
+.actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.inline-order-form,
+.role-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.small-input,
+.role-form select {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font: inherit;
+}
+
+.orders-list,
+.users-list {
+    display: grid;
+    gap: 18px;
+}
+
+.order-items {
+    padding-left: 20px;
+}
+
+@media (max-width: 720px) {
+    .product-layout {
+        grid-template-columns: 1fr;
+    }
 }

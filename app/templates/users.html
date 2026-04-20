@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<h1>Users and Roles</h1>
+
+<!-- список пользователей -->
+<div class="users-list">
+{% for user in users %}
+    <section class="panel">
+        <p><strong>ID:</strong> {{ user.id }}</p>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Current role:</strong> {{ user.role }}</p>
+
+        <!-- форма смены роли -->
+        <form method="post" action="/admin/users/{{ user.id }}/role" class="role-form">
+            <select name="role">
+            {% for role in roles %}
+                <!-- выбираем текущую роль -->
+                <option value="{{ role }}" {% if role == user.role %}selected{% endif %}>{{ role }}</option>
+            {% endfor %}
+            </select>
+            <button type="submit" class="button">Save Role</button>
+        </form>
+    </section>
+{% endfor %}
+</div>
+{% endblock %}

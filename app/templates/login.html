@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h1>Login</h1>
+
+{% if error %}
+<!-- текст ошибки -->
+<p class="message-error">{{ error }}</p>
+{% endif %}
+
+<!-- форма входа -->
+<form method="post" class="form auth-form">
+    <label>
+        Username
+        <input type="text" name="username" required>
+    </label>
+
+    <label>
+        Password
+        <input type="password" name="password" required>
+    </label>
+
+    <!-- отправляем данные входа -->
+    <button type="submit" class="button">Login</button>
+</form>
+{% endblock %}

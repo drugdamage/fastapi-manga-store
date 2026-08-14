@@ -1,87 +1,87 @@
-# модели таблиц базы
+# database table models
 from sqlalchemy import Boolean, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import Base
 
 
-# Таблица пользователей.
+# Users table.
 class UserDB(Base):
     __tablename__ = "users"
 
-    # id пользователя
+    # user id
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    # логин пользователя
+    # username
     username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-    # тут лежит хеш пароля
+    # password hash lives here
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
-    # роль пользователя
+    # user role
     role: Mapped[str] = mapped_column(String(20), default="user", nullable=False)
 
-    # связь с заказами
+    # relationship to orders
     orders: Mapped[list["OrderDB"]] = relationship(back_populates="user")
 
 
-# Таблица товаров.
+# Products table.
 class ProductDB(Base):
     __tablename__ = "products"
 
-    # id товара
+    # product id
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    # название манги
+    # manga title
     title: Mapped[str] = mapped_column(String(120), nullable=False)
-    # описание товара
+    # product description
     description: Mapped[str] = mapped_column(String(1000), nullable=False)
-    # цена товара
+    # product price
     price: Mapped[float] = mapped_column(Float, nullable=False)
-    # ссылка на картинку
+    # image url
     image_url: Mapped[str] = mapped_column(String(255), nullable=False)
-    # номер тома
+    # volume number
     volume: Mapped[int] = mapped_column(Integer, nullable=False)
-    # жанр
+    # genre
     genre: Mapped[str] = mapped_column(String(50), nullable=False)
-    # есть ли товар в наличии
+    # whether the product is in stock
     in_stock: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
-    # связь с товарами в заказе
+    # relationship to order items
     order_items: Mapped[list["OrderItemDB"]] = relationship(back_populates="product")
 
 
-# Таблица заказов.
+# Orders table.
 class OrderDB(Base):
     __tablename__ = "orders"
 
-    # id заказа
+    # order id
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    # владелец заказа
+    # order owner
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
-    # простой статус заказа
+    # simple order status
     status: Mapped[str] = mapped_column(String(20), default="new", nullable=False)
-    # общая сумма
+    # total amount
     total_price: Mapped[float] = mapped_column(Float, default=0, nullable=False)
 
-    # связь с пользователем
+    # relationship to user
     user: Mapped["UserDB"] = relationship(back_populates="orders")
-    # связь с товарами заказа
+    # relationship to order items
     items: Mapped[list["OrderItemDB"]] = relationship(back_populates="order")
 
 
-# Товары внутри заказа.
+# Items within an order.
 class OrderItemDB(Base):
     __tablename__ = "order_items"
 
-    # id позиции заказа
+    # order item id
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    # к какому заказу относится
+    # which order this belongs to
     order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"), nullable=False)
-    # какой товар купили
+    # which product was bought
     product_id: Mapped[int] = mapped_column(ForeignKey("products.id"), nullable=False)
-    # сколько штук
+    # quantity
     quantity: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
-    # цена на момент заказа
+    # price at the time of order
     price: Mapped[float] = mapped_column(Float, nullable=False)
 
-    # связь с заказом
+    # relationship to order
     order: Mapped["OrderDB"] = relationship(back_populates="items")
-    # связь с товаром
+    # relationship to product
     product: Mapped["ProductDB"] = relationship(back_populates="order_items")

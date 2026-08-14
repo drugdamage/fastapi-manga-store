@@ -1,30 +1,32 @@
 # FastAPI Manga Store
 
-Простой учебный проект интернет-магазина манги на FastAPI.
+A small learning project — a manga shop built with FastAPI while getting
+back into Python properly after a bit of a break. Still learning as I go,
+so the whole thing's kept small and dead easy to follow on purpose.
 
-Проект специально сделан маленьким и понятным:
-- товары
-- регистрация и вход
-- роли `user`, `manager`, `admin`
-- заказы
-- простая HTML-часть на Jinja2
-- SQLite база данных
+Deliberately kept small and simple:
+- products
+- registration and login
+- `user`, `manager`, `admin` roles
+- orders
+- a bare-bones HTML front end with Jinja2
+- SQLite database
 
-## Что уже есть
+## What's working so far
 
-- главная страница и каталог
-- просмотр товара
-- создание товара для `manager` и `admin`
-- редактирование товара для `manager` и `admin`
-- регистрация новых пользователей
-- вход и выход
-- страница аккаунта
-- просмотр своих заказов
-- просмотр всех заказов для `manager` и `admin`
-- смена ролей пользователей для `admin`
-- API для товаров по пути `/api/items`
+- homepage and catalogue
+- product detail view
+- creating a product as `manager` or `admin`
+- editing a product as `manager` or `admin`
+- new user registration
+- login and logout
+- account page
+- viewing your own orders
+- viewing all orders as `manager` or `admin`
+- changing user roles as `admin`
+- an API for products at `/api/items`
 
-## Технологии
+## Tech stack
 
 - Python 3
 - FastAPI
@@ -34,7 +36,7 @@
 - Pydantic
 - Jinja2
 
-## Структура проекта
+## Project structure
 
 ```text
 fastapi-manga-store/
@@ -59,7 +61,7 @@ fastapi-manga-store/
 └── README.md
 ```
 
-## Как запустить
+## Getting it running
 
 ```powershell
 python -m venv .venv
@@ -68,60 +70,60 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-После запуска открыть:
+Once it's up, have a look at:
 
 - `http://127.0.0.1:8000`
 - `http://127.0.0.1:8000/docs`
 
-## Как работает база
+## How the database works
 
-- база создается автоматически при старте приложения
-- файл базы: `manga_store.db`
-- стартовые товары добавляются автоматически
-- тестовые аккаунты тоже добавляются автоматически
+- the database gets created automatically when the app starts
+- database file: `manga_store.db`
+- starter products get seeded in automatically
+- test accounts get seeded in automatically too
 
-## Тестовые аккаунты
+## Test accounts
 
 - `user / user123`
 - `manager / manager123`
 - `admin / admin123`
 
-## Что проверять по ролям
+## What each role can do
 
 ### user
 
-- может зарегистрироваться
-- может войти
-- может смотреть товары
-- может делать заказ
-- может смотреть только свои заказы
+- can register
+- can log in
+- can browse products
+- can place an order
+- can only see their own orders
 
 ### manager
 
-- может все, что `user`
-- может добавлять товары
-- может редактировать товары
-- может смотреть все заказы
+- everything `user` can do
+- can add products
+- can edit products
+- can see all orders
 
 ### admin
 
-- может все, что `manager`
-- может открывать страницу `/admin/users`
-- может менять роли пользователей
+- everything `manager` can do
+- can open the `/admin/users` page
+- can change user roles
 
-## Полезные страницы
+## Handy pages
 
-- `/` - главная
-- `/catalog` - каталог
-- `/login` - вход
-- `/register` - регистрация
-- `/account` - аккаунт
-- `/orders` - мои заказы
-- `/orders/all` - все заказы для manager/admin
-- `/admin/users` - пользователи и роли для admin
+- `/` - homepage
+- `/catalog` - catalogue
+- `/login` - login
+- `/register` - registration
+- `/account` - account
+- `/orders` - my orders
+- `/orders/all` - all orders, for manager/admin
+- `/admin/users` - users and roles, for admin
 
 ## API
 
-- `GET /api/items` - список товаров
-- `GET /api/items/{item_id}` - один товар
-- `POST /api/items` - создать товар, нужен `manager` или `admin`
+- `GET /api/items` - list of products
+- `GET /api/items/{item_id}` - a single product
+- `POST /api/items` - create a product, needs `manager` or `admin`

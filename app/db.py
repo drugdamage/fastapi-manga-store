@@ -1,14 +1,14 @@
-# файл с настройкой базы
+# database setup file
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
-# Простая база SQLite в файле проекта.
+# Simple SQLite database in a project file.
 DATABASE_URL = "sqlite:///./manga_store.db"
 
-# создаем подключение к sqlite
+# create the sqlite connection
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
-# Фабрика сессий для работы с базой.
+# Session factory for working with the database.
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
@@ -16,10 +16,10 @@ SessionLocal = sessionmaker(
     expire_on_commit=False,
 )
 
-# базовый класс для таблиц
+# base class for tables
 Base = declarative_base()
 
 
 def get_session() -> Session:
-    # Возвращаем новую сессию для запросов.
+    # Return a new session for queries.
     return SessionLocal()

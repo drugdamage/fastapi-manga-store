@@ -6,11 +6,11 @@
 <h1>Login</h1>
 
 {% if error %}
-<!-- текст ошибки -->
+<!-- error text -->
 <p class="message-error">{{ error }}</p>
 {% endif %}
 
-<!-- форма входа -->
+<!-- login form -->
 <form method="post" class="form auth-form">
     <label>
         Username
@@ -22,7 +22,7 @@
         <input type="password" name="password" required>
     </label>
 
-    <!-- отправляем данные входа -->
+    <!-- submit login data -->
     <button type="submit" class="button">Login</button>
 </form>
 {% endblock %}

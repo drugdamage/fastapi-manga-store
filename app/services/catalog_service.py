@@ -1,25 +1,25 @@
-# сервис для работы с товарами
+# service for working with products
 from sqlalchemy import select
 
-# подключаем базу и схемы
+# wire up the database and schemas
 from app.db import get_session
 from app.models.database import ProductDB
 from app.models.product import ProductCreate, ProductOut, ProductUpdate
 
 
 def list_products() -> list[ProductOut]:
-    # Берем все товары из базы.
+    # Get all products from the database.
     with get_session() as session:
-        # делаем запрос с сортировкой по id
+        # query sorted by id
         products = session.scalars(select(ProductDB).order_by(ProductDB.id)).all()
-        # переводим orm объекты в pydantic
+        # convert orm objects to pydantic
         return [ProductOut.model_validate(product) for product in products]
 
 
 def get_product(product_id: int) -> ProductOut | None:
-    # Ищем один товар по id.
+    # Look up a single product by id.
     with get_session() as session:
-        # берем товар по ключу
+        # get the product by key
         product = session.get(ProductDB, product_id)
         if product is None:
             return None
@@ -27,9 +27,9 @@ def get_product(product_id: int) -> ProductOut | None:
 
 
 def create_product(payload: ProductCreate) -> ProductOut:
-    # Создаем новый товар в базе.
+    # Create a new product in the database.
     with get_session() as session:
-        # собираем объект товара
+        # build the product object
         product = ProductDB(
             title=payload.title,
             description=payload.description,
@@ -39,24 +39,24 @@ def create_product(payload: ProductCreate) -> ProductOut:
             genre=payload.genre,
             in_stock=payload.in_stock,
         )
-        # добавляем товар в сессию
+        # add the product to the session
         session.add(product)
-        # сохраняем в базу
+        # save to the database
         session.commit()
-        # обновляем объект после сохранения
+        # refresh the object after saving
         session.refresh(product)
         return ProductOut.model_validate(product)
 
 
 def update_product(product_id: int, payload: ProductUpdate) -> ProductOut | None:
-    # Обновляем товар в базе.
+    # Update the product in the database.
     with get_session() as session:
-        # ищем товар для редактирования
+        # look up the product to edit
         product = session.get(ProductDB, product_id)
         if product is None:
             return None
 
-        # меняем поля товара
+        # update the product fields
         product.title = payload.title
         product.description = payload.description
         product.price = payload.price
@@ -65,7 +65,7 @@ def update_product(product_id: int, payload: ProductUpdate) -> ProductOut | None
         product.genre = payload.genre
         product.in_stock = payload.in_stock
 
-        # сохраняем новые данные
+        # save the new data
         session.commit()
         session.refresh(product)
         return ProductOut.model_validate(product)

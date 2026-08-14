@@ -1,39 +1,39 @@
-# главный файл приложения
+# main application file
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 from starlette.middleware.sessions import SessionMiddleware
 
-# подключаем базу и модели
+# wire up the database and models
 from app.db import Base, engine, get_session
 from app.models.database import ProductDB
 from app.models.user import Role
-# подключаем роуты и сервисы
+# wire up the routers and services
 from app.routers import items, pages
 from app.services import auth_service
 
-# создаем приложение FastAPI
+# create the FastAPI app
 app = FastAPI(title="Manga Store MVP")
-# включаем сессии для входа
+# enable sessions for login
 app.add_middleware(SessionMiddleware, secret_key="simple-manga-store-secret-key")
 
-# подключаем папку со стилями и картинками
+# mount the folder with styles and images
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-# подключаем страницы и api
+# wire up pages and api
 app.include_router(pages.router)
 app.include_router(items.router, prefix="/api")
 
 
 def seed_products() -> None:
-    # Добавляем стартовые товары только один раз.
+    # Add the starter products only once.
     with get_session() as session:
-        # проверяем, есть ли уже товары
+        # check if products already exist
         existing_product = session.scalar(select(ProductDB.id).limit(1))
         if existing_product is not None:
             return
 
-        # список стартовых манг
+        # list of starter manga
         products = [
             ProductDB(
                 title="Jujutsu Kaisen",
@@ -82,34 +82,34 @@ def seed_products() -> None:
             ),
         ]
 
-        # сохраняем товары в базу
+        # save products to the database
         session.add_all(products)
         session.commit()
 
 
 def seed_users() -> None:
-    # Добавляем demo пользователей по ролям.
+    # Add demo users for each role.
     demo_users = [
         ("admin", "admin123", Role.admin.value),
         ("manager", "manager123", Role.manager.value),
         ("user", "user123", Role.user.value),
     ]
 
-    # пробуем добавить demo аккаунты
+    # try to add the demo accounts
     for username, password, role in demo_users:
         try:
             auth_service.create_user(username, password, role)
         except ValueError:
-            # если такой уже есть, просто идем дальше
+            # already exists, just move on
             continue
 
 
 @app.on_event("startup")
 def on_startup() -> None:
-    # Создаем таблицы и начальные данные.
-    # создаем таблицы в sqlite
+    # Create tables and seed data.
+    # create tables in sqlite
     Base.metadata.create_all(bind=engine)
-    # добавляем стартовые товары
+    # add starter products
     seed_products()
-    # добавляем demo пользователей
+    # add demo users
     seed_users()

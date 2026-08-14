@@ -1,29 +1,29 @@
-# схемы пользователя
+# user schemas
 from pydantic import BaseModel
 from enum import Enum
 
 
-# роли в системе
+# roles in the system
 class Role(str, Enum):
     user = "user"
     manager = "manager"
     admin = "admin"
 
 
-# данные из формы регистрации
+# data from the registration form
 class UserCreate(BaseModel):
     username: str
     password: str
     role: Role = Role.user
 
 
-# данные пользователя без пароля
+# user data without the password
 class UserOut(BaseModel):
-    id: int 
+    id: int
     username: str
     role: Role
 
 
-# как пользователь хранится в базе
+# how the user is stored in the database
 class UserInDB(UserOut):
     hashed_password: str

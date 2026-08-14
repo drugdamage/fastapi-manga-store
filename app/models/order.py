@@ -1,15 +1,15 @@
-# модели для вывода заказов
+# models for rendering orders
 from pydantic import BaseModel
 
 
-# одна строка в заказе
+# one line in an order
 class OrderItemView(BaseModel):
     product_title: str
     quantity: int
     price: float
 
 
-# заказ для страницы
+# order for the page
 class OrderView(BaseModel):
     id: int
     user_id: int

@@ -1,1 +1,1 @@
-# пакет сервисов
+# services package

@@ -6,19 +6,19 @@
 <h1>{{ title }}</h1>
 
 {% if orders %}
-    <!-- список заказов -->
+    <!-- orders list -->
     <div class="orders-list">
     {% for order in orders %}
         <section class="panel">
             <h3>Order #{{ order.id }}</h3>
             {% if show_username %}
-            <!-- для менеджера видно владельца -->
+            <!-- manager can see the owner -->
             <p><strong>User:</strong> {{ order.username }}</p>
             {% endif %}
             <p><strong>Status:</strong> {{ order.status }}</p>
             <p><strong>Total:</strong> ${{ "%.2f"|format(order.total_price) }}</p>
 
-            <!-- товары внутри заказа -->
+            <!-- items within the order -->
             <ul class="order-items">
             {% for item in order.items %}
                 <li>{{ item.product_title }} x{{ item.quantity }} - ${{ "%.2f"|format(item.price) }}</li>
@@ -28,7 +28,7 @@
     {% endfor %}
     </div>
 {% else %}
-    <!-- если заказов нет -->
+    <!-- if there are no orders -->
     <p>No orders yet.</p>
 {% endif %}
 {% endblock %}

@@ -7,31 +7,31 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <!-- общая шапка сайта -->
+    <!-- shared site header -->
     <header class="site-header">
         <div class="container nav">
-            <!-- логотип ведет на главную -->
+            <!-- logo links to the homepage -->
             <a href="/" class="logo">Manga Store</a>
             <nav>
-                <!-- общие ссылки -->
+                <!-- links visible to everyone -->
                 <a href="/">Home</a>
                 <a href="/catalog">Catalog</a>
                 {% if current_user %}
-                    <!-- ссылки после входа -->
+                    <!-- links after login -->
                     <a href="/account">Account</a>
                     <a href="/orders">My Orders</a>
                 {% else %}
-                    <!-- ссылки для гостя -->
+                    <!-- links for a guest -->
                     <a href="/login">Login</a>
                     <a href="/register">Register</a>
                 {% endif %}
                 {% if is_manager %}
-                    <!-- ссылки менеджера -->
+                    <!-- manager links -->
                     <a href="/products/new">Add Manga</a>
                     <a href="/orders/all">All Orders</a>
                 {% endif %}
                 {% if is_admin %}
-                    <!-- ссылка для админа -->
+                    <!-- admin link -->
                     <a href="/admin/users">Users</a>
                 {% endif %}
                 <a href="/docs">API Docs</a>
@@ -39,7 +39,7 @@
         </div>
     </header>
 
-    <!-- сюда подставляется страница -->
+    <!-- the page content goes here -->
     <main class="container">
         {% block content %}{% endblock %}
     </main>

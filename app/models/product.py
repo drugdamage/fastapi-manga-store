@@ -1,8 +1,8 @@
-# схемы товара для api и форм
+# product schemas for the api and forms
 from pydantic import BaseModel, Field
 
 
-# данные для создания товара
+# data for creating a product
 class ProductCreate(BaseModel):
     title: str = Field(min_length=2, max_length=120)
     description: str = Field(min_length=10, max_length=1000)
@@ -14,29 +14,29 @@ class ProductCreate(BaseModel):
 
 
 class ProductOut(BaseModel):
-    # id товара
+    # product id
     id: int
-    # название
+    # title
     title: str
-    # описание
+    # description
     description: str
-    # цена
+    # price
     price: float
-    # картинка
+    # image
     image_url: str
-    # том
+    # volume
     volume: int
-    # жанр
+    # genre
     genre: str
-    # наличие
+    # in stock
     in_stock: bool
 
     class Config:
-        # Разрешаем собирать ответ из ORM объекта.
+        # Allow building the response from an ORM object.
         from_attributes = True
 
 
-# данные для редактирования товара
+# data for editing a product
 class ProductUpdate(BaseModel):
     title: str = Field(min_length=2, max_length=120)
     description: str = Field(min_length=10, max_length=1000)

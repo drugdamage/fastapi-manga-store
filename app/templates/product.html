@@ -3,7 +3,7 @@
 {% block title %}Product - Manga Store{% endblock %}
 
 {% block content %}
-<!-- если товар нашелся -->
+<!-- if the product was found -->
 {% if product %}
 <div class="product-layout">
     <div>
@@ -18,7 +18,7 @@
 
         <p>
             <strong>Status:</strong>
-            <!-- показываем наличие товара -->
+            <!-- show product availability -->
             {% if product.in_stock %}
                 In stock
             {% else %}
@@ -29,21 +29,21 @@
         <div class="actions-row">
             <a href="/catalog" class="button">Back to catalog</a>
             {% if current_user and product.in_stock %}
-            <!-- простая форма заказа -->
+            <!-- simple order form -->
             <form method="post" action="/products/{{ product.id }}/order" class="inline-order-form">
                 <input type="number" name="quantity" min="1" value="1" class="small-input">
                 <button type="submit" class="button">Order</button>
             </form>
             {% endif %}
             {% if is_manager %}
-            <!-- менеджер может редактировать -->
+            <!-- manager can edit -->
             <a href="/products/{{ product.id }}/edit" class="button button-secondary">Edit</a>
             {% endif %}
         </div>
     </div>
 </div>
 {% else %}
-<!-- если товара нет -->
+<!-- if the product doesn't exist -->
 <h1>Manga not found</h1>
 <p>This item does not exist.</p>
 <a href="/catalog" class="button">Back to catalog</a>

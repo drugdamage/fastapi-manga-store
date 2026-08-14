@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Users and Roles</h1>
 
-<!-- список пользователей -->
+<!-- user list -->
 <div class="users-list">
 {% for user in users %}
     <section class="panel">
@@ -13,11 +13,11 @@
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Current role:</strong> {{ user.role }}</p>
 
-        <!-- форма смены роли -->
+        <!-- role change form -->
         <form method="post" action="/admin/users/{{ user.id }}/role" class="role-form">
             <select name="role">
             {% for role in roles %}
-                <!-- выбираем текущую роль -->
+                <!-- mark the current role -->
                 <option value="{{ role }}" {% if role == user.role %}selected{% endif %}>{{ role }}</option>
             {% endfor %}
             </select>

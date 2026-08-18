@@ -4,6 +4,9 @@ A small manga shop built with FastAPI, made while relearning Python.
 Kept small on purpose: products, login, `user`/`manager`/`admin` roles,
 orders, a Jinja2 front end, SQLite.
 
+> **Not maintained.** Old project, not currently worked on, no plans
+> to continue it.
+
 ## What works
 
 - homepage and catalogue

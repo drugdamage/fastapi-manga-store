@@ -1,30 +1,17 @@
 # FastAPI Manga Store
 
-A small learning project — a manga shop built with FastAPI while getting
-back into Python after a break. Still learning as I go, so it's kept
-small and easy to follow on purpose.
+A small manga shop built with FastAPI, made while relearning Python.
+Kept small on purpose: products, login, `user`/`manager`/`admin` roles,
+orders, a Jinja2 front end, SQLite.
 
-Deliberately kept small and simple:
-- products
-- registration and login
-- `user`, `manager`, `admin` roles
-- orders
-- a bare-bones HTML front end with Jinja2
-- SQLite database
-
-## What's working so far
+## What works
 
 - homepage and catalogue
-- product detail view
-- creating a product as `manager` or `admin`
-- editing a product as `manager` or `admin`
-- new user registration
-- login and logout
-- account page
-- viewing your own orders
-- viewing all orders as `manager` or `admin`
-- changing user roles as `admin`
-- an API for products at `/api/items`
+- product detail view, create/edit as `manager` or `admin`
+- registration, login, logout, account page
+- own orders (user) or all orders (`manager`/`admin`)
+- role changes (`admin`)
+- products API at `/api/items`
 
 ## Tech stack
 
@@ -70,17 +57,15 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-Once it's up, have a look at:
+Then open:
 
 - `http://127.0.0.1:8000`
 - `http://127.0.0.1:8000/docs`
 
-## How the database works
+## Database
 
-- the database gets created automatically when the app starts
-- database file: `manga_store.db`
-- starter products get seeded in automatically
-- test accounts get seeded in automatically too
+Created automatically on startup (`manga_store.db`), seeded with
+starter products and test accounts.
 
 ## Test accounts
 
@@ -88,30 +73,13 @@ Once it's up, have a look at:
 - `manager / manager123`
 - `admin / admin123`
 
-## What each role can do
+## Roles
 
-### user
+- **user** — register, log in, browse, order, view own orders
+- **manager** — user, plus add/edit products, view all orders
+- **admin** — manager, plus `/admin/users` page, change roles
 
-- can register
-- can log in
-- can browse products
-- can place an order
-- can only see their own orders
-
-### manager
-
-- everything `user` can do
-- can add products
-- can edit products
-- can see all orders
-
-### admin
-
-- everything `manager` can do
-- can open the `/admin/users` page
-- can change user roles
-
-## Handy pages
+## Pages
 
 - `/` - homepage
 - `/catalog` - catalogue
@@ -124,6 +92,6 @@ Once it's up, have a look at:
 
 ## API
 
-- `GET /api/items` - list of products
-- `GET /api/items/{item_id}` - a single product
-- `POST /api/items` - create a product, needs `manager` or `admin`
+- `GET /api/items` - list products
+- `GET /api/items/{item_id}` - single product
+- `POST /api/items` - create product (`manager`/`admin`)

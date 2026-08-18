@@ -1,8 +1,8 @@
 # FastAPI Manga Store
 
 A small learning project — a manga shop built with FastAPI while getting
-back into Python properly after a bit of a break. Still learning as I go,
-so the whole thing's kept small and dead easy to follow on purpose.
+back into Python after a break. Still learning as I go, so it's kept
+small and easy to follow on purpose.
 
 Deliberately kept small and simple:
 - products
